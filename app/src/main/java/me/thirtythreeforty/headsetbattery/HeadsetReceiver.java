@@ -18,11 +18,14 @@ public final class HeadsetReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String action = intent.getAction();
-        if (BluetoothHeadset.ACTION_VENDOR_SPECIFIC_HEADSET_EVENT.equals(action)) {
+        final String action = intent.getAction();
+        final String VENDOR_EVENT_EVENT = context.getString(R.string.vendor_event_intent);
+        final String CONNECTION_CHANGED_EVENT = context.getString(R.string.connection_changed_intent);
+
+        if (VENDOR_EVENT_EVENT.equals(action)) {
             onVendorSpecificHeadsetEvent(context, intent);
         }
-        else if (BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED.equals(action)) {
+        else if (CONNECTION_CHANGED_EVENT.equals(action)) {
             onHeadsetConnectionStateChange(context, intent);
         }
     }

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Headset Battery</string>
+
+    <string name="connection_changed_intent">android.bluetooth.adapter.action.CONNECTION_STATE_CHANGED</string>
+    <string name="vendor_event_intent">android.bluetooth.headset.action.VENDOR_SPECIFIC_HEADSET_EVENT</string>
+    <string name="apple_vendor_category">android.bluetooth.headset.intent.category.companyid.76</string>
 </resources>
