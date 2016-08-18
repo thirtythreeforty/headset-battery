@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -21,6 +22,8 @@ public final class HeadsetReceiver extends BroadcastReceiver {
         final String action = intent.getAction();
         final String VENDOR_EVENT = context.getString(R.string.vendor_event_intent);
         final String CONNECTION_CHANGED = context.getString(R.string.connection_changed_intent);
+
+        Toast.makeText(context, String.format("Got an intent! %s", action), Toast.LENGTH_LONG).show();
 
         if (VENDOR_EVENT.equals(action)) {
             onVendorSpecificHeadsetEvent(context, intent);
@@ -64,7 +67,8 @@ public final class HeadsetReceiver extends BroadcastReceiver {
     private static void notifyBatteryPercent(Context context, float batteryLevel) {
         final Notification.Builder builder = new Notification.Builder(context)
                 .setContentTitle("Headset Battery")
-                .setContentText(String.format(Locale.ENGLISH, "Headset battery %f%", batteryLevel));
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentText(String.format(Locale.ENGLISH, "Headset battery %.2f", batteryLevel));
 
         final Notification notif;
         if(Build.VERSION.SDK_INT >= 16) {

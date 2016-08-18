@@ -13,10 +13,19 @@
         <receiver
             android:name=".HeadsetReceiver"
             android:enabled="true"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
-                <action android:name="@string/vendor_event_intent" />
-                <category android:name="@string/apple_vendor_category" />
+                <action android:name="android.bluetooth.headset.action.VENDOR_SPECIFIC_HEADSET_EVENT" />
+                <category android:name="android.bluetooth.headset.intent.category.companyid.76" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".HeadsetReceiver2"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.bluetooth.adapter.action.CONNECTION_STATE_CHANGED" />
             </intent-filter>
         </receiver>
 
