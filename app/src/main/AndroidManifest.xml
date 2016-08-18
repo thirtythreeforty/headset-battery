@@ -18,12 +18,6 @@
                 <action android:name="android.bluetooth.headset.action.VENDOR_SPECIFIC_HEADSET_EVENT" />
                 <category android:name="android.bluetooth.headset.intent.category.companyid.76" />
             </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".HeadsetReceiver2"
-            android:enabled="true"
-            android:exported="true">
             <intent-filter>
                 <action android:name="android.bluetooth.adapter.action.CONNECTION_STATE_CHANGED" />
             </intent-filter>
