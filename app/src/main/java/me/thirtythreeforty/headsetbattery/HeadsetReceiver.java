@@ -19,13 +19,13 @@ public final class HeadsetReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
-        final String VENDOR_EVENT_EVENT = context.getString(R.string.vendor_event_intent);
-        final String CONNECTION_CHANGED_EVENT = context.getString(R.string.connection_changed_intent);
+        final String VENDOR_EVENT = context.getString(R.string.vendor_event_intent);
+        final String CONNECTION_CHANGED = context.getString(R.string.connection_changed_intent);
 
-        if (VENDOR_EVENT_EVENT.equals(action)) {
+        if (VENDOR_EVENT.equals(action)) {
             onVendorSpecificHeadsetEvent(context, intent);
         }
-        else if (CONNECTION_CHANGED_EVENT.equals(action)) {
+        else if (CONNECTION_CHANGED.equals(action)) {
             onHeadsetConnectionStateChange(context, intent);
         }
     }
@@ -68,7 +68,7 @@ public final class HeadsetReceiver extends BroadcastReceiver {
 
         final Notification notif;
         if(Build.VERSION.SDK_INT >= 16) {
-            builder.setPriority(Notification.PRIORITY_LOW);
+            // builder.setPriority(Notification.PRIORITY_LOW);
             notif = builder.build();
         }
         else {

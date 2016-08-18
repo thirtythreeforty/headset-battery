@@ -4,4 +4,5 @@
     <string name="connection_changed_intent">android.bluetooth.adapter.action.CONNECTION_STATE_CHANGED</string>
     <string name="vendor_event_intent">android.bluetooth.headset.action.VENDOR_SPECIFIC_HEADSET_EVENT</string>
     <string name="apple_vendor_category">android.bluetooth.headset.intent.category.companyid.76</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
