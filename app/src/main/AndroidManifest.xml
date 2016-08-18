@@ -17,6 +17,7 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="android.bluetooth.adapter.action.CONNECTION_STATE_CHANGED"/>
+                <category android:name="android.bluetooth.headset.intent.category.companyid.76"/>
             </intent-filter>
         </receiver>
     </application>

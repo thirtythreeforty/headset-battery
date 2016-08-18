@@ -36,6 +36,7 @@ public final class HeadsetReceiver extends BroadcastReceiver {
     }
 
     private static void onVendorSpecificHeadsetEvent(Context context, Intent intent) {
+        // Taken from http://review.cyanogenmod.org/#/c/153034/
         if (intent.hasExtra(BluetoothHeadset.EXTRA_VENDOR_SPECIFIC_HEADSET_EVENT_CMD)) {
             String command = intent.getStringExtra(BluetoothHeadset.EXTRA_VENDOR_SPECIFIC_HEADSET_EVENT_CMD);
             if ("+IPHONEACCEV".equals(command)) {
@@ -46,7 +47,7 @@ public final class HeadsetReceiver extends BroadcastReceiver {
                             continue;
                         }
                         if (args[i*2+1].equals(1)) {
-                            float batteryLevel = (((Integer)args[i*2+2])+1)/10.0f;
+                            final float batteryLevel = (((Integer)args[i*2+2])+1)/10.0f;
 
                             notifyBatteryPercent(context, batteryLevel);
                             break;
@@ -58,11 +59,11 @@ public final class HeadsetReceiver extends BroadcastReceiver {
     }
 
     private static void notifyBatteryPercent(Context context, float batteryLevel) {
-        Notification.Builder builder = new Notification.Builder(context)
+        final Notification.Builder builder = new Notification.Builder(context)
                 .setContentTitle("Headset Battery")
                 .setContentText(String.format(Locale.ENGLISH, "Headset battery %f%", batteryLevel));
 
-        Notification notif;
+        final Notification notif;
         if(Build.VERSION.SDK_INT >= 16) {
             builder.setPriority(Notification.PRIORITY_LOW);
             notif = builder.build();
