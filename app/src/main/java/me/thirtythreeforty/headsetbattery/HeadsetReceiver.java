@@ -7,12 +7,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.widget.Toast;
+import android.util.Log;
 
 import java.util.Locale;
 
 public final class HeadsetReceiver extends BroadcastReceiver {
     static final int HEADSET_NOTIFICATION_ID = 1;
+    static final String TAG = HeadsetReceiver.class.getName();
 
     public HeadsetReceiver() {
     }
@@ -23,7 +24,7 @@ public final class HeadsetReceiver extends BroadcastReceiver {
         final String VENDOR_EVENT = context.getString(R.string.vendor_event_intent);
         final String CONNECTION_CHANGED = context.getString(R.string.connection_changed_intent);
 
-        Toast.makeText(context, String.format("Got an intent! %s", action), Toast.LENGTH_LONG).show();
+        Log.d(TAG, "Got an intent");
 
         if (VENDOR_EVENT.equals(action)) {
             onVendorSpecificHeadsetEvent(context, intent);
@@ -55,7 +56,9 @@ public final class HeadsetReceiver extends BroadcastReceiver {
                         if (args[i*2+1].equals(1)) {
                             final float batteryLevel = (((Integer)args[i*2+2])+1)/10.0f;
 
-                            notifyBatteryPercent(context, batteryLevel);
+                            if(context.getSharedPreferences("prefs", Context.MODE_PRIVATE).getBoolean("enabled", true)) {
+                                notifyBatteryPercent(context, batteryLevel);
+                            }
                             break;
                         }
                     }
@@ -65,14 +68,28 @@ public final class HeadsetReceiver extends BroadcastReceiver {
     }
 
     private static void notifyBatteryPercent(Context context, float batteryLevel) {
+        final int icon;
+        if(batteryLevel > 0.9) {
+            icon = R.drawable.stat_sys_data_bluetooth_connected_battery_5;
+        } else if(batteryLevel > 0.7) {
+            icon = R.drawable.stat_sys_data_bluetooth_connected_battery_4;
+        } else if(batteryLevel > 0.3) {
+            icon = R.drawable.stat_sys_data_bluetooth_connected_battery_3;
+        } else if(batteryLevel > 0.1) {
+            icon = R.drawable.stat_sys_data_bluetooth_connected_battery_2;
+        } else {
+            icon = R.drawable.stat_sys_data_bluetooth_connected_battery_1;
+        }
+
+        final float percentage = batteryLevel * 100;
+
         final Notification.Builder builder = new Notification.Builder(context)
                 .setContentTitle("Headset Battery")
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentText(String.format(Locale.ENGLISH, "Headset battery %.2f", batteryLevel));
+                .setSmallIcon(icon)
+                .setContentText(String.format(Locale.ENGLISH, "%.0f%%", percentage));
 
         final Notification notif;
         if(Build.VERSION.SDK_INT >= 16) {
-            // builder.setPriority(Notification.PRIORITY_LOW);
             notif = builder.build();
         }
         else {
